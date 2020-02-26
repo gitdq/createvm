@@ -36,5 +36,8 @@ Mise en place:
    - docker image remove localhost:5000/my-node
 - teste de pull pour récupérer l'image node tagué :
    - docker pull localhost:5000/my-node
-   
+*******************************************************************************************************************
+
+- Créer une nouvelle image en inserant Git à partir l'image déjà pushé dans le registry:
+
    
