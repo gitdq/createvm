@@ -1,6 +1,6 @@
 # learndocker
 
-L'objectif est de démarrer une application Node qui tourne dans un conteneur
+L'objectif est de démarrer une application après avoir installé Node et Nmp sur le host
 
 Mise en place:
  - outils :
@@ -40,6 +40,10 @@ Mise en place:
    -  docker pull myregistry.local:5000/testing/test-image
 *******************************************************************************************************************
 
+
+   
+
+*******************************************************************************************************************
 - Créer une nouvelle image en inserant Git à partir l'image déjà pushé dans le registry:
 
    
