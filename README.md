@@ -22,20 +22,22 @@ Mise en place:
    - lancer vagrant up
    - se connecter à la machine virtuelle vagrant : vagrant ssh
    
-- Créer un registry local : https://docs.docker.com/registry/deploying/
+- Start the registry automatically
    - docker run -d -p 5000:5000 --restart=always --name registry registry:2
    
 - Télécharger une image nodejs : 
    - docker pull node sous le repertoire images (ou voir sur Docker hub) 
 - Tager l'image node pullé : 
    - docker tag node localhost:5000/my-node
-- Pusher l'image tagué dans le registry : 
+- Créer un registry local : https://docs.docker.com/registry/deploying/ : Pusher l'image tagué dans le registry : 
    - docker push localhost:5000/my-node
 - Supprimer le cache localement node et localhost:5000/my-node, mais celui-ci ne supprime pas l'image du registry :
    - docker image remove node
    - docker image remove localhost:5000/my-node
 - teste de pull pour récupérer l'image node tagué :
    - docker pull localhost:5000/my-node
+   ou
+   -  docker pull myregistry.local:5000/testing/test-image
 *******************************************************************************************************************
 
 - Créer une nouvelle image en inserant Git à partir l'image déjà pushé dans le registry:
