@@ -157,7 +157,32 @@ Notes : Dans package.json, on peut customiser les npm (voir exemple ci-dessou :
 
 on a ajouté ==> build: npm install, ce qui fait lorsque nous lançons : npm run build . celui-ci lance npm install
 
+*******************************************************************************************************************
 
+
+   
+
+*******************************************************************************************************************
+
+Cours sur Docker-composer:
+
+créer un fichier docker-compose.yml pour orchestrer vos conteneurs Docker.
+
+Pour rappel, voici les arguments que nous avons pu voir dans ce chapitre :
+
+image qui permet de spécifier l'image source pour le conteneur ;
+
+build qui permet de spécifier le Dockerfile source pour créer l'image du conteneur ;
+
+volume qui permet de spécifier les points de montage entre le système hôte et les conteneurs ;
+
+restart qui permet de définir le comportement du conteneur en cas d'arrêt du processus ;
+
+environment qui permet de définir les variables d’environnement ;
+
+depends_on qui permet de dire que le conteneur dépend d'un autre conteneur ;
+
+ports qui permet de définir les ports disponibles entre la machine host et le conteneur
              
 
    
