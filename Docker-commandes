@@ -1,0 +1,85 @@
+(commit) You can modify files inside a container. If you restart the same container you can note that these changes are still present. However they will not be present in the other container (even if they are running the same image) because docker uses a copy-on-write filesystem. Use the command docker diff to show the difference of a container from its image.
+
+Remember that all changes inside a container are thrown away when the container is removed. If we want save a container filesytem for later use, we have to commit the conainer (i.e take a snapshot).
+
+docker commit CONTAINER
+This operation creates a new image (visible in docker images). This image in turn can be used to start a new container.
+
+Note: docker commit does not affect the state of the container. If it is running, then it just keeps running. You may take as many snapshots as you like.
+
+(rm) You now have too many dead containers in your engine. You should use docker rm to remove them. Alternatively you can run docker container prune which removes all dead container.
+
+(extras) If you still have extra time, you can experiment
+
+the other docker run options we introduced so far:
+--rm to remove the container automatically when it terminates
+-d/--detach to run a container in the background
+-u/--user to run the container as a different user
+-w/--workdir to start the container in a different directory
+-e/--env to set an environment variable
+-h/--hostname to set a different hostname (the host name inside the container)
+--name to set a different name (the name of the container in the docker engine)
+also you may type docker run --help to display all configuration keys
+other docker commands (note: some of these commands require the container to be running, just launch docker run -d -t -i debian to have one that keeps running in the background)
+docker inspect to display the metadata of a container (json format)
+docker cp to transfer files from/into the container
+docker exec to have launch a separate command (very useful for providing a debugging shell -> docker exec -t -i CONTAINER bash)
+docker top to display the processes running inside the container
+docker stats to display usage statistics
+docker logs to display the container output
+docker attach to reattach to the console of a detached container
+Part 3. Container inputs/outputs
+(external volume) Run a container with -v/--volume to mount an external volume.
+
+Eg: mount the /tmp/myvol from the host machine at /myvol inside the container:
+
+docker run --rm -t -i -v /tmp/myvol:/myvol debian
+Note: on Windows/MacOS over the Docker Toolbox, your docker engine is running inside a virtual machine. This means /tmp/myvol refers to the /tmp/myvol path inside the VM. You can mount directories from your host system only if they are shared with the VM. By default the toolbox is configured to share the Users directory inside the VM:
+
+on Windows C:\\Users is mounted as /c/Users
+on MacOS /Users is mounted as /Users
+Thus you can mount a directory from these places, eg:
+
+docker run --rm -t -i -v '/c/Users/NAME/My documents/myvol:/myvol' debian
+
+docker run --rm -t -i -v '/Users/NAME/Documents/myvol:/myvol' debian
+
+Once the container is started, you can note that the directory /tmp/myvol is mounted inside the container at /myvol. If you create files there they will be visible on both sides, and they will persist if the container is removed. You can remove your container and create a new one with the same parameters to check that.
+
+This way of using an external volume is a direct mount. The docker engine will not care about the management of this directory (apart from creating it).
+
+(named volume) Alternatively we can create a named volume. That is a volume managed by docker (and by stored by default in /var/lib/docker/volumes). A named volume is a volume that does not start with /. Example:
+
+docker run --rm -t -i -v my-named-volume:/myvol debian
+This named volume is persistent of course. It is managed separately from the containers with the docker volume command, eg:
+
+docker volume ls
+docker volume rm my-named-volume
+(running a server) We will now play with the network.
+
+Pull the nginx:stable-alpine image (nginx is a web server, and alpine is a very lightweight linux distribution based on the musl C library+busybox and a popular solution for building small docker images).
+
+docker pull nginx:stable-alpine
+Our goal here is to run a http server to serve some content (ex: the package documentations on our machine in /usr/share/doc). Before starting the container we need to know how to configure it, especially we need to know where the served directory must be mounted.
+
+The documentation of the nginx image says the content is to be located in /usr/share/nginx/html. So let's mount our doc directory at this place. Note that nginx does not require write access on these files, therefore it is a good idea to append :ro to make the mount read-only.
+
+docker run -d --name nginx -v /usr/share/doc:/usr/share/nginx/html:ro nginx:stable-alpine
+The server is now running somewhere in a container. Since this container has a separate network stack, it has a different IP address. There are multiple ways to obtain this IP address:
+
+inspect the container metadata:
+
+docker inspect nginx | grep IPAddress
+run a command inside the container:
+
+docker exec nginx ip addr show dev eth0
+Once you know this address you can open it in your web browser -> http://172.17.x.x/. Unfortunately the nginx image is compiled without the autoindex module so it will not display directories without a index.html file.
+
+Just find a html document with the following command and append it to your url to see if it works.
+
+(cd /usr/share/doc && find * -name index.html)
+(publish) We have confiremed that we are able to run a HTTP server inside a container and serve some content. However this container is in a private network (172.17.0.0/16), it is not reachable from the public.
+
+To make it reachable we have to publish the HTTP port (tcp/80) on host machine (which may have a public IP address). We add a -p/--publish option:
+
+docker run -d --name nginx -v /usr/share/doc:/usr/share/nginx/html:ro -p 80:80 nginx:stable-alpine
