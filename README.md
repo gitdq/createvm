@@ -81,7 +81,7 @@ var express = require('express');
  app.listen(PORT);
  console.log('Running on http://localhost:' + PORT);
 
-5) Lancer nmp install . ==> permet de ramener les dépendances spécifiées dans le packages.json (express)
+5) Lancer npm install . ==> permet de ramener les dépendances spécifiées dans le packages.json (express)
    Resultat :
 └─┬ express@4.17.1
   ├─┬ accepts@1.3.7
