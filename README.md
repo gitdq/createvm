@@ -134,7 +134,7 @@ var express = require('express');
   ├── utils-merge@1.0.1
   └── vary@1.1.2
 
-6) Lance ensuite npm en passant les paramétres ==>  env PORT=8085 MSG="Hello world" npm start
+6) Lance ensuite npm start en passant les paramétres ==>  env PORT=8085 MSG="Hello world" npm start
 7) passer en background : Ctrl+z puis bg (pour revenir en fordground : fg)
 8) Pour tester, lancer un curl ==> curl -X GET http://localhost:8085
 
