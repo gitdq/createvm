@@ -17,7 +17,7 @@ Mise en place:
 
    https://github.com/hashicorp/vagrant/blob/v2.2.7/CHANGELOG.md
    
-- Démarrage du Vagran-Docker : 
+- Démarrage du Vagrant-Docker : 
    - se positionner sous Vagrant-Docker
    - lancer vagrant up
    - se connecter à la machine virtuelle vagrant : vagrant ssh
