@@ -50,6 +50,7 @@ Notion de base sur npm :
 1) Installer npm ==> sudo yum install npm (gestionnaire de package)
 2) Créer un répertoire tempo1 ==> mkdir tempo1
 3) créer un fichier "package.json" et inserer le contenu ci-dessous ==> vi package.json
+``` 
    {
    "name": "docker_web_app",
    "version": "1.0.0",
@@ -63,6 +64,7 @@ Notion de base sur npm :
      "express": "^4.13.3"
    }
  }
+```
 
 4) créer un fichier "server.js" et inserer le contenu ci-dessous ==> vi server.js
    [vagrant@localhost tempo1]$ more server.js
