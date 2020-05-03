@@ -50,6 +50,8 @@ Notion de base sur npm :
 1) Installer npm ==> sudo yum install npm (gestionnaire de package)
 2) Créer un répertoire tempo1 ==> mkdir tempo1
 3) créer un fichier "package.json" et inserer le contenu ci-dessous ==> vi package.json
+
+```json 
    {
    "name": "docker_web_app",
    "version": "1.0.0",
@@ -63,13 +65,16 @@ Notion de base sur npm :
      "express": "^4.13.3"
    }
  }
+```
 
 4) créer un fichier "server.js" et inserer le contenu ci-dessous ==> vi server.js
    [vagrant@localhost tempo1]$ more server.js
+   
+```javascript 
+
 var express = require('express');
  // var PORT = 8080;
- var PORT = process.env.PORT;  => cette ligne permet de commprendre comment passer la variable PORT en paramétre lors du lancement de 
-                                   npm
+ var PORT = process.env.PORT;  => cette ligne permet de commprendre comment passer la variable PORT en paramétre lors du lancement de npm
  var app = express();
  app.get('/', function (req, res) {
   // res.send('Hello world\n');
@@ -80,9 +85,11 @@ var express = require('express');
 
  app.listen(PORT);
  console.log('Running on http://localhost:' + PORT);
+``` 
 
-5) Lancer npm install . ==> permet de ramener les dépendances spécifiées dans le packages.json (express)
+5) Lancer npm install. ==> permet de ramener les dépendances spécifiées dans le packages.json (express)
    Resultat :
+``` 
 └─┬ express@4.17.1
   ├─┬ accepts@1.3.7
   │ ├─┬ mime-types@2.1.26
@@ -133,13 +140,19 @@ var express = require('express');
   │ └── media-typer@0.3.0
   ├── utils-merge@1.0.1
   └── vary@1.1.2
+``` 
 
 6) Lance ensuite npm start en passant les paramétres ==>  env PORT=8085 MSG="Hello world" npm start
+
 7) passer en background : Ctrl+z puis bg (pour revenir en fordground : fg)
+
 8) Pour tester, lancer un curl ==> curl -X GET http://localhost:8085
 
-Notes : Dans package.json, on peut customiser les npm (voir exemple ci-dessou :
-        {
+Notes : Dans package.json, on peut customiser les npm (voir exemple ci-dessous) :
+
+```json
+
+{
    "name": "docker_web_app",
    "version": "1.0.0",
    "description": "Node.js on Docker",
@@ -154,6 +167,8 @@ Notes : Dans package.json, on peut customiser les npm (voir exemple ci-dessou :
      "express": "^4.13.3"
    }
  }
+ 
+``` 
 
 on a ajouté ==> build: npm install, ce qui fait lorsque nous lançons : npm run build . celui-ci lance npm install
 
